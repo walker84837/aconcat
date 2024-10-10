@@ -1,4 +1,4 @@
-GO_BUILD = go build -ldflags="-s -w" -o
+GO_BUILD = go build -o
 BINARY_NAME = ac
 SRC_DIR = src
 OUTPUT_DIR = bin
