@@ -1,4 +1,4 @@
-GO_BUILD = go build -o
+GO_BUILD = go build -trimpath -buildmode=pie -mod=readonly -modcacherw -ldflags="-s -w" -o
 BINARY_NAME = ac
 SRC_DIR = src
 OUTPUT_DIR = bin

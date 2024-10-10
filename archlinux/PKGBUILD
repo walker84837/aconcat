@@ -16,13 +16,19 @@ sha256sums=('SKIP')  # Skipping checksum verification for VCS sources
 
 build() {
   cd "$srcdir/$pkgname"
+  mkdir -p bin
+
   export CGO_CPPFLAGS="${CPPFLAGS}"
   export CGO_CFLAGS="${CFLAGS}"
   export CGO_CXXFLAGS="${CXXFLAGS}"
   export CGO_LDFLAGS="${LDFLAGS}"
-  export GOFLAGS="-buildmode=pie -trimpath -ldflags '-s -w' -mod=readonly -modcacherw"
-  
-  make
+
+  go build -trimpath \
+    -buildmode=pie \
+    -mod=readonly \
+    -modcacherw \
+    -ldflags "-linkmode external -extldflags \"${LDFLAGS}\"" \
+    -o bin/ac src/*.go
 }
 
 package() {

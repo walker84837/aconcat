@@ -28,3 +28,4 @@ go.work.sum
 archlinux/pkg
 archlinux/src
 archlinux/aconcat
+archlinux/*.tar.zst
