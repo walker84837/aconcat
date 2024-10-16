@@ -14,21 +14,49 @@ import (
 	"github.com/sirupsen/logrus"
 )
 
+var (
+	verbose    = flag.Bool("verbose", false, "Enable verbose logging")
+	outputFile = flag.String("output", "", "Output audio file (required)")
+	sampleRate = flag.Int("sample-rate", 48000, "Sample rate for re-encoding (default: 48000)")
+	helpFlag   = flag.Bool("help", false, "Show usage information")
+)
+
+func usage() {
+	fmt.Println(`Usage: aconcat [options] <input-file-1> <input-file-2> ...
+
+aconcat is a command-line tool for concatenating multiple audio files into one output file.
+It re-encodes the input files to a common format (FLAC by default) before concatenation.
+
+Options:
+  -verbose        Enable verbose logging
+  -output         Specify the output audio file (required)
+  -sample-rate    Set the sample rate for re-encoding (default: 48000)
+  -help           Show this help message
+
+Examples:
+  aconcat -output final_audio.wav file1.mp3 file2.wav
+  aconcat -sample-rate 44100 -output final.flac file1.aac file2.ogg`)
+}
+
 func main() {
-	verbose := flag.Bool("verbose", false, "Enable verbose logging")
-	outputFile := flag.String("output", "", "Output audio file")
+	flag.Usage = usage
 	flag.Parse()
 
+	if *helpFlag {
+		flag.Usage()
+		return
+	}
+
 	inputFiles := flag.Args()
-	if len(inputFiles) < 2 {
-		logrus.Fatal("You must provide at least two input files.")
+	if len(inputFiles) < 2 || *outputFile == "" {
+		logrus.Error("Error: You must provide at least two input files and specify an output file.")
+		flag.Usage()
+		os.Exit(1)
 	}
 
 	logger := logrus.New()
 	if *verbose {
-		logger.SetFormatter(&logrus.TextFormatter{
-			FullTimestamp: true,
-		})
+		logger.SetFormatter(&logrus.TextFormatter{FullTimestamp: true})
 		logger.SetLevel(logrus.InfoLevel)
 	} else {
 		logger.SetLevel(logrus.WarnLevel)
@@ -51,11 +79,11 @@ func main() {
 			logger.Fatalf("Failed to get absolute path for %s: %v", inputFile, err)
 		}
 
-		convertedFile := filepath.Join(tempDir, filepath.Base(absPath))
-		convertedFile = convertedFile + "_converted.flac"
-
+		convertedFile := filepath.Join(tempDir, filepath.Base(absPath)+"_converted.flac")
 		logger.Infof("Re-encoding %s to %s", absPath, convertedFile)
-		cmd := exec.Command("ffmpeg", "-i", absPath, "-ar", "48000", "-ac", "2", "-c:a", "flac", convertedFile)
+
+		// Use the sample rate from the flag
+		cmd := exec.Command("ffmpeg", "-i", absPath, "-ar", fmt.Sprintf("%d", *sampleRate), "-ac", "2", "-c:a", "flac", convertedFile)
 
 		if !*verbose {
 			cmd.Stdout = io.Discard
