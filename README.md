@@ -1,12 +1,10 @@
 # aconcat: audio concatenation tool
 
-A CLI tool for concatenating multiple audio files into a single output file.
+> A CLI tool for concatenating multiple audio files into a single output file.
 
-This tool provides a way to concatenate multiple audio files into one. It
-re-encodes all input audio files to a common format before concatenation.
-This ensures compatibility and consistency across all files. The tool uses
-`ffmpeg` for both re-encoding and concatenation processes. It supports verbose
-logging to assist in debugging and verification.
+aconcat provides a way to concatenate multiple audio files into one. It re-encodes all input audio files to a common format before concatenation, to ensure compatibility and consistency across multiple audio files.
+
+I won't lie: this tool relies on `ffmpeg` for both re-encoding and concatenation processes. It supports verbose logging to assist in debugging and verification.
 
 ## Table of Contents
 
@@ -19,18 +17,16 @@ logging to assist in debugging and verification.
 
 ### Dependencies
 
-Ensure you have `ffmpeg` installed on your system, as this tool relies on it for
-audio processing. You can install `ffmpeg` from [FFmpeg's official
-website](https://ffmpeg.org/download.html) or through a package manager.
+Make sure you have `ffmpeg` installed on your system. You can install `ffmpeg` from [FFmpeg's official website](https://ffmpeg.org/download.html) or through a package manager (many distros package it).
 
 ### Installation
 
-To use this tool, simply clone the repository and build it using Go:
+To use aconcat, clone the repository and build it using Go and [Just](https://github.com/casey/just):
 
 ``` console
 $ git clone https://github.com/walker84837/aconcat.git
 $ cd aconcat
-$ make
+$ just build
 ```
 
 ## Usage
@@ -66,13 +62,10 @@ $ ac [flags] <input-files>...
 
 ## Contributing
 
-Contributions are welcome! If you have suggestions or improvements, please
-submit a pull request or open an issue on the GitHub repository.
+Contributions are welcome! If you have suggestions or improvements, please submit a pull request or open an issue on the GitHub repository.
 
-For any questions or discussions, you can reach out via the repository's issue
-tracker.
+For any questions or discussions, you can reach out via the repository's issue tracker.
 
 ## License
 
-This project is licensed under the [BSD 3-Clause License](LICENSE.md) file for
-details.
+This project is licensed under the [BSD 3-Clause License](LICENSE.md); check the file for details.
