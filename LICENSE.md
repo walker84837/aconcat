@@ -1,7 +1,7 @@
 BSD 3-Clause License
 ====================
 
-_Copyright © `2024`, `walker84837`_
+_Copyright © `2026`, `walker84837`_
 _All rights reserved._
 
 Redistribution and use in source and binary forms, with or without
