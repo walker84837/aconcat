@@ -1,4 +1,4 @@
-module aconcat
+module github.com/walker84837/aconcat
 
 go 1.23.0
 
